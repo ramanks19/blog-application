@@ -1,6 +1,6 @@
 package com.springboot.blog.springbootblogrestapi.controller;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -62,8 +62,10 @@ public class PostController {
 
     //update post by id
     @PutMapping("/{id}")
-    public ResponseEntity<PostDTO> updatePostById(@Valid @RequestBody PostDTO postDTO, @PathVariable(name = "id") long id) {
-        PostDTO postResponse = postService.updatePost(postDTO, id);
+    public ResponseEntity<PostDTO> updatePostById(@Valid @RequestBody PostDTO postDTO, 
+                        @PathVariable(name = "id") long id,
+                        @RequestParam(required = false) Set<String> fieldsToUpdate) {
+        PostDTO postResponse = postService.updatePost(postDTO, id, fieldsToUpdate);
         return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
 

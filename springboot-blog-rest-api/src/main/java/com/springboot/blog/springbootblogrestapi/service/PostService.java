@@ -3,7 +3,7 @@ package com.springboot.blog.springbootblogrestapi.service;
 import com.springboot.blog.springbootblogrestapi.payload.PostDTO;
 import com.springboot.blog.springbootblogrestapi.payload.PostResponse;
 
-import java.util.List;
+import java.util.Set;
 
 public interface PostService {
     PostDTO createPostDTO(PostDTO postDTO);
@@ -13,7 +13,7 @@ public interface PostService {
 
     PostDTO getPostById(long id);
 
-    PostDTO updatePost(PostDTO postDTO, long id);
+    PostDTO updatePost(PostDTO postDTO, long id, Set<String> fieldsToUpdate);
 
     void deletePostById(long id);
     

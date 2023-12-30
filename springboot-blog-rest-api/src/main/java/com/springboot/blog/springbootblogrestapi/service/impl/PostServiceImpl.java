@@ -1,6 +1,7 @@
 package com.springboot.blog.springbootblogrestapi.service.impl;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
@@ -81,12 +82,22 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public PostDTO updatePost(PostDTO postDTO, long id) {
+    public PostDTO updatePost(PostDTO postDTO, long id, Set<String> fieldsToUpdate) {
         Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
 
-        post.setTitle(postDTO.getTitle());
-        post.setDescription(postDTO.getDescription());
-        post.setContent(postDTO.getContent());
+        // post.setTitle(postDTO.getTitle());
+        // post.setDescription(postDTO.getDescription());
+        // post.setContent(postDTO.getContent());
+        //Update only the specified fields
+        if (fieldsToUpdate.contains("title")) {
+            post.setTitle(postDTO.getTitle());
+        }
+        if (fieldsToUpdate.contains("description")) {
+            post.setDescription(postDTO.getDescription());
+        }
+        if (fieldsToUpdate.contains("content")) {
+            post.setContent(postDTO.getContent());
+        }
 
         Post updatedPost = postRepository.save(post);
         return mapToDTO(updatedPost);
