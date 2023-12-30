@@ -15,9 +15,11 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "POSTS", 
        uniqueConstraints = {@UniqueConstraint(columnNames = {"TITLE"})})

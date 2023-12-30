@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,11 @@ import com.springboot.blog.springbootblogrestapi.service.PostService;
 public class PostServiceImpl implements PostService{
 
     private PostRepository postRepository;
+    private ModelMapper modelMapper;
 
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository, ModelMapper modelMapper) {
         this.postRepository = postRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -111,21 +114,23 @@ public class PostServiceImpl implements PostService{
 
     //Convert DTO to entity
     private Post mapToEntity(PostDTO postDTO) {
-        Post post = new Post();
-        post.setTitle(postDTO.getTitle());
-        post.setDescription(postDTO.getDescription());
-        post.setContent(postDTO.getContent());
+        // Post post = new Post();
+        // post.setTitle(postDTO.getTitle());
+        // post.setDescription(postDTO.getDescription());
+        // post.setContent(postDTO.getContent());
+        Post post = modelMapper.map(postDTO, Post.class);
 
         return post;
     }
 
     //Convert entity to DTO
     private PostDTO mapToDTO(Post post) {
-        PostDTO postDTO = new PostDTO();
-        postDTO.setId(post.getId());
-        postDTO.setTitle(post.getTitle());
-        postDTO.setDescription(post.getDescription());
-        postDTO.setContent(post.getContent());
+        // PostDTO postDTO = new PostDTO();
+        // postDTO.setId(post.getId());
+        // postDTO.setTitle(post.getTitle());
+        // postDTO.setDescription(post.getDescription());
+        // postDTO.setContent(post.getContent());
+        PostDTO postDTO = modelMapper.map(post, PostDTO.class);
         
         return postDTO;
     }
