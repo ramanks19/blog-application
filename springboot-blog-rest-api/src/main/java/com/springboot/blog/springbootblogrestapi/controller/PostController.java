@@ -33,7 +33,7 @@ public class PostController {
 
     //create blog post
     @PostMapping
-    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
+    public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostDTO postDTO) {
         return new ResponseEntity<>(postService.createPostDTO(postDTO), HttpStatus.CREATED);
     }
 
