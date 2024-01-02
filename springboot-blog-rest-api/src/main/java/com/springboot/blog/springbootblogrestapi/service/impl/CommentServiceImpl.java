@@ -1,5 +1,8 @@
 package com.springboot.blog.springbootblogrestapi.service.impl;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -67,6 +70,16 @@ public class CommentServiceImpl implements CommentService{
         Post post = getPostByIdOrThrow(postId);
         Comment comment = getCommentByIdOrThrow(commentId);
         validateCommentBelongsToPost(comment, post);
+
+        Set<String> validFields = Arrays.stream(Comment.class.getDeclaredFields())
+                                        .map(Field::getName)
+                                        .collect(Collectors.toSet());
+        
+        if (!validFields.containsAll(fieldsToUpdate)) {
+            Set<String> invalidFields = new HashSet<>(fieldsToUpdate);
+            invalidFields.removeAll(validFields);
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Invalid fields are: " + invalidFields);
+        }
 
         //Update only the specified fields
         if (fieldsToUpdate.contains("name")) {
