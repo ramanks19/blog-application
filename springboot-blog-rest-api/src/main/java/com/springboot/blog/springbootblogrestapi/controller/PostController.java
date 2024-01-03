@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Set;
 
 //import javax.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -27,6 +31,10 @@ import com.springboot.blog.springbootblogrestapi.utils.AppConstants;
 
 @RestController
 @RequestMapping("/api/")
+@Tag(
+        name = "CRUD APIs for Post Resource",
+        description = "APIs for managing posts"
+)
 public class PostController {
     
     private PostService postService;
@@ -35,21 +43,49 @@ public class PostController {
         this.postService = postService;
     }
 
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/categories/{categoryName}/posts")
+    @Operation(
+            summary = "Create a new post"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Post created successfully"
+    )
     public ResponseEntity<PostDTO> createPost(@PathVariable(value = "categoryName") String categoryName,
                           @Valid @RequestBody PostDTO postDTO) {
         return new ResponseEntity<>(postService.createPost(categoryName, postDTO), HttpStatus.CREATED);
     }
 
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/categories/{categoryName}/posts")
+    @Operation(
+            summary = "Get all the posts tagged to a category",
+            description = "This API used by admin retrieves all the posts in the specified category."
+    )
     public List<PostDTO> getPostsByCategories(@PathVariable(value = "categoryName") String categoryName) {
         return postService.getAllPostsByCategoryName(categoryName);
     }
 
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/categories/{categoryName}/posts/{postId}")
+    @Operation(
+            summary = "Get post by ID",
+            description = "This API to be used by admin retrieves a post by its ID in the specified category."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Post retrieved succesfully."
+    )
     public ResponseEntity<PostDTO> getPostById(
         @PathVariable(value = "categoryName") String categoryName,
         @PathVariable(value = "postId") Long postId
@@ -58,8 +94,19 @@ public class PostController {
         return new ResponseEntity<>(postDTO, HttpStatus.OK);
     }
 
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/categories/{categoryName}/posts/{postId}")
+    @Operation(
+            summary = "Update a post by its ID.",
+            description = "This post updates a post by its ID in the specified category."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Post updated successfully."
+    )
     public ResponseEntity<PostDTO> updatePost(
         @PathVariable(value = "categoryName") String categoryName,
         @PathVariable(value = "postId") Long postId,
@@ -70,7 +117,18 @@ public class PostController {
         return new ResponseEntity<>(updatedPost, HttpStatus.OK);
     }
 
+    @SecurityRequirement(
+            name = "Bear Authentication"
+    )
     @DeleteMapping("/categories/{categoryName}/posts/{postId}")
+    @Operation(
+            summary = "Delete a post by its ID",
+            description = "This API deletes a post by its ID in the specified category."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Post deleted successfully."
+    )
     public ResponseEntity<String> deletePost(
         @PathVariable(value = "categoryName") String categoryName,
         @PathVariable(value = "postId") Long postId

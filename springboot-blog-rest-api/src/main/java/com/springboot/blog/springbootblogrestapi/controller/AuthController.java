@@ -1,5 +1,8 @@
 package com.springboot.blog.springbootblogrestapi.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +17,10 @@ import com.springboot.blog.springbootblogrestapi.service.AuthService;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(
+        name = "Authentication Controller",
+        description = "APIs for user authentication and registration."
+)
 public class AuthController {
 
     private AuthService authService;
@@ -31,6 +38,14 @@ public class AuthController {
     
     //Build Login REST API
     @PostMapping(value = {"/login", "/signin"})
+    @Operation(
+            summary = "User Login",
+            description = "Authenticate and generate JWT token for user logins"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Login successfully."
+    )
     public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDTO loginDTO){
         String token = authService.login(loginDTO);
 
@@ -42,6 +57,14 @@ public class AuthController {
 
     //Build Register REST API
     @PostMapping(value = {"/register", "/signup"})
+    @Operation(
+            summary = "User Registration.",
+            description = "Register a new user."
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "User registered successfully."
+    )
     public ResponseEntity<String> register(@RequestBody RegisterDTO registerDTO){
         String response = authService.register(registerDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
