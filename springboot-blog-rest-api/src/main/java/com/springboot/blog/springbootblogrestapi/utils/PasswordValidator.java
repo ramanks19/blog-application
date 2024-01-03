@@ -1,7 +1,8 @@
 package com.springboot.blog.springbootblogrestapi.utils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+//import javax.validation.ConstraintValidator;
+//import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.*;
 
 public class PasswordValidator implements ConstraintValidator<ComplexPassword, String>{
 

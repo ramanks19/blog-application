@@ -1,7 +1,8 @@
 package com.springboot.blog.springbootblogrestapi.payload;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
+//import javax.validation.constraints.Email;
+//import javax.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import lombok.Data;
 

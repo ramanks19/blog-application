@@ -1,7 +1,8 @@
 package com.springboot.blog.springbootblogrestapi.utils;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
+//import javax.validation.Constraint;
+//import javax.validation.Payload;
+import jakarta.validation.*;
 import java.lang.annotation.*;
 
 @Documented

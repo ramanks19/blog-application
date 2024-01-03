@@ -3,7 +3,8 @@ package com.springboot.blog.springbootblogrestapi.payload;
 import java.util.List;
 import java.util.Set;
 
-import javax.validation.constraints.Size;
+//import javax.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import com.springboot.blog.springbootblogrestapi.entity.Post;
 

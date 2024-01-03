@@ -58,23 +58,24 @@ public class SecurityConfig {
 //                     .httpBasic(Customizer.withDefaults());
 //         return httpSecurity.build();
 //     }
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable()
-                    .authorizeHttpRequests((authorize) ->
-                     authorize.antMatchers(HttpMethod.GET, "/api/**").permitAll()
-                    .antMatchers("/api/auth/**").permitAll()
-                    .anyRequest().authenticated()
-                ).exceptionHandling(exception -> exception
-                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                ).sessionManagement(session -> session
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
-
-        httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        
-        return httpSecurity.build();
-    }
+//    @Bean
+//    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        httpSecurity.csrf().disable()
+//                    .authorizeHttpRequests((authorize) ->
+//                     authorize.antMatchers(HttpMethod.GET, "/api/**").permitAll()
+//                    .antMatchers("/api/auth/**").permitAll()
+//                    .antMatchers("/v3/api-docs").permitAll()
+//                    .anyRequest().authenticated()
+//                ).exceptionHandling(exception -> exception
+//                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                ).sessionManagement(session -> session
+//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                );
+//
+//        httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+//
+//        return httpSecurity.build();
+//    }
 
     // @Bean
     // public UserDetailsService userDetailsService() {
@@ -92,5 +93,24 @@ public class SecurityConfig {
 
     //     return new InMemoryUserDetailsManager(user, admin);
     // }
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf().disable()
+                .authorizeHttpRequests((authorize) ->
+                        authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/v3/api-docs").permitAll()
+                                .anyRequest().authenticated()
+                ).exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                ).sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                );
+
+        httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return httpSecurity.build();
+    }
     
 }
