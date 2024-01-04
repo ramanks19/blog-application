@@ -30,7 +30,10 @@ import com.springboot.blog.springbootblogrestapi.service.PostService;
 import com.springboot.blog.springbootblogrestapi.utils.AppConstants;
 
 @RestController
-@RequestMapping("/api/")
+//@RequestMapping("/api/")
+@RequestMapping("/api/v1/")
+//Changing the version of Post APIs as the endpoints have changed. Now in order to create a post we need
+//to mention the category under which the post will be created.
 @Tag(
         name = "CRUD APIs for Post Resource",
         description = "APIs for managing posts"
